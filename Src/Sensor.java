@@ -62,11 +62,11 @@ public class Sensor extends Product
     {
         if(getValue() > getThreshold())
         {
-            notifyUser("Sensor went over the threshold value" + getValue()
+            notifyUser("Sensor went over the threshold value" + getValue());
         }
         else
         {
-            
+            notifyUser("Sensor is inside the threshold limit");
         }
         return true;
     }
