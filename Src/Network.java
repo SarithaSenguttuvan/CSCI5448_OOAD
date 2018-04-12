@@ -40,12 +40,12 @@ public class Network implements DisplayList
 	
 	public Group createGroup()
 	{
-	//     Group group = new Group();
-    //     if(group != null)
-    //     {
-    //         groupList.add(group);
-    //         return group;
-    //     }
+	    Group group = new Group();
+        if(group != null)
+        {
+            groupList.add(group);
+            return group;
+        }
 	}
 	
 	public boolean deleteGroup(Group _group)
