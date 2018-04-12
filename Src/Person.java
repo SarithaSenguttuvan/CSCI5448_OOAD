@@ -14,28 +14,33 @@
 
 public class Person
 {
-	private String name;
-	private String phone;
-	private String password;
+	String name;
+	PhoneNumber phone;
+	String *password;
+	Person(String _name, String _phone)
+	{
+		setName(_name);
+		setPhone(_phone);
+	}
 	public void setName(String _name)
 	{
-	    name = _name;
+	    this.name = _name;
 	}
 	public String getName()
 	{
-	    return name;   
+	    return this.name;   
 	}
 	public void setPhone(String _phone)
 	{
-	    phone = _phone;
+	    this.phone = _phone;
 	}
-	public String getPhone()
+	public PhoneNumber getPhone()
 	{
-	    return phone;   
+	    return this.phone;   
 	}
-	public void setPassword(String _password)
+	public void setPassword(String *_password)
 	{
-	    password = _password;
+	    this.password = _password;
 	}
 	public String getPassword()
 	{

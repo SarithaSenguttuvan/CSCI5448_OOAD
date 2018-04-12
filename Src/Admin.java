@@ -1,7 +1,13 @@
 public class Admin extends Person implements DisplayList
 {
-    public Integer totalProducts;
-    public ArrayList<Product> productsList = new ArrayList<Product>();
+    Integer totalProducts;
+    ArrayList<Product> productsList = new ArrayList<Product>();
+
+    Admin()
+    {
+    	super(_name, _phone);
+    }
+
     public Integer getTotalProducts()
 	{
 	    return totalProducts;   
@@ -13,6 +19,7 @@ public class Admin extends Person implements DisplayList
 	public void addProducts(Product _product)
 	{
 	    productsList.add(_product);
+	    Subject.setState();
 	}
 	public void removeProducts(Product _product)
 	{
@@ -24,5 +31,4 @@ public class Admin extends Person implements DisplayList
             System.out.println("_product = " + _product);
         }
 	}
-	
 }
