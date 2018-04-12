@@ -34,7 +34,11 @@ public class Group implements DisplayList
     
     public void viewGroupSettings()
     {
-        //display the setting page
+        System.out.println("The group name is" + this.getGrpName());
+        System.out.println("The group power status is" + this.getGrpSpecificPwr());
+        System.out.println("The sensors in the list are ");
+		String _grpName = System.console().readLine();
+		this.listProducts();
     }
     public void changeGroupSettings(boolean: _grpSpecificPower)
     {

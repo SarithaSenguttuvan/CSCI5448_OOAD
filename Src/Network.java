@@ -31,7 +31,8 @@ public class Network implements DisplayList
 	    	for (Group group_name : groupList) 
 	    	{ 		      
             	if (group_name.contains(_sensor)) {
-			    	group_name.remove(_sensor);
+            		group_name.removeSensorFromGrp(_sensor);
+			    	//group_name.remove(_sensor);
 				} 	
 		    }
 	    	
@@ -41,6 +42,13 @@ public class Network implements DisplayList
 	public Group createGroup()
 	{
 	    Group group = new Group();
+	    System.out.println("Enter the Group Name");
+		String _grpName = System.console().readLine();
+		group.setGrpName(_grpName);
+		System.out.println("Enter the Group Status");
+		String _grpStatus = System.console().readLine();
+		group.setGrpSpecificPwr(_grpStatus);
+		
         if(group != null)
         {
             groupList.add(group);
