@@ -1,7 +1,19 @@
-public class User extends Person
+public class User extends Person  //Should extend Server Class
 {
     public Integer numOfNetworks;
     public Network networkObj;
+
+    User(Subject subject)
+    {
+    	this.subject = subject;
+    	this.subject.attach(this);
+    }
+	@Override
+   	public void update() 
+   	{
+		System.out.println( "Added new Product" ); 
+    }
+
     public void setNumOfNetworks(Integer _numOfNetworks)
 	{
 	    numOfNetworks = _numOfNetworks;
