@@ -28,7 +28,13 @@ public class Network implements DisplayList
 	    if(sensorList.remove(_sensor) == true)
 	    {
 	    	//On success of removing the sensor from sensor list, remove the sensor from the group as well
-	    	groupList.remove(_sensor);
+	    	for (Group group_name : groupList) 
+	    	{ 		      
+            	if (group_name.contains(_sensor)) {
+			    	group_name.remove(_sensor);
+				} 	
+		    }
+	    	
 	    }
 	}
 	
