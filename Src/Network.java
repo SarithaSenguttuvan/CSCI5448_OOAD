@@ -11,16 +11,25 @@ public class Network implements DisplayList
         }
 	}
 	
-	public Sensor addSensorToNetwork()
+	public Sensor addSensorToNetwork(Sensor sensor_name, String _location, double _threshold)
 	{
-	    //sensorList.add(_sensor);
+		
+		System.out.println("Enter the location");
+		String location_name = System.console().readLine();
+		System.out.println("Enter the threshold");
+		double threshold_value = System.console().readLine();
+		sensor_name.location = location_name;
+		sensor_name.threshold = threshold_value;
+	    sensorList.add(sensor_name);
 	}
 	
 	public boolean removeSensorFromNetwork(Sensor _sensor)
 	{
-	    //sensorList.remove(_sensor);
-	    //on success
-	    //groupList.remove(_sensor);
+	    if(sensorList.remove(_sensor) == true)
+	    {
+	    	//On success of removing the sensor from sensor list, remove the sensor from the group as well
+	    	groupList.remove(_sensor);
+	    }
 	}
 	
 	public Group createGroup()
