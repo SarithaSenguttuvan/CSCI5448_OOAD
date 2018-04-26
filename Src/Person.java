@@ -13,13 +13,15 @@
  */
 
 public class Person
-{
+{	
 	String name;
-	PhoneNumber phone;
-	String *password;
-	Person(String _name, String _phone)
+	String phone;
+	String password;
+	Person(String _name, String _password, String _phone)
 	{
+		System.out.println("Person constructor called");
 		setName(_name);
+		setPassword(_password);
 		setPhone(_phone);
 	}
 	public void setName(String _name)
@@ -34,16 +36,25 @@ public class Person
 	{
 	    this.phone = _phone;
 	}
-	public PhoneNumber getPhone()
+	public String getPhone()
 	{
 	    return this.phone;   
 	}
-	public void setPassword(String *_password)
+	public void setPassword(String _password)
 	{
 	    this.password = _password;
 	}
 	public String getPassword()
 	{
 	    return password;
+	}
+	public void printDetails()
+	{
+		System.out.println("UserName");
+		System.out.println(this.name);
+		System.out.println("Phone Number");
+		System.out.println(this.phone);
+		System.out.println("Password");
+		System.out.println(this.password);
 	}
 }

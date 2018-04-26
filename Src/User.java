@@ -1,42 +1,10 @@
-public class User extends Person  //Should extend Server Class
+import java.util.Scanner;
+
+public class User extends Person //implements DisplayList
 {
-    public Integer numOfNetworks;
-    public Network networkObj;
-
-    User(Subject subject)
+    User(String _name, String _password, String phoneNumber)
     {
-    	this.subject = subject;
-    	this.subject.attach(this);
-    }
-	@Override
-   	public void update() 
-   	{
-		System.out.println( "Added new Product" ); 
-    }
-
-    public void setNumOfNetworks(Integer _numOfNetworks)
-	{
-	    numOfNetworks = _numOfNetworks;
-	}
-	public Integer getNumOfNetworks()
-	{
-	    return numOfNetworks;   
-	}
-	public void setNetworkObj(Network _networkObj)
-	{
-	    networkObj = _networkObj;
-	}
-	public Network getNetworkObj()
-	{
-	    return networkObj;   
-	}
-    public Network createNetwork()
-    {
-        //signleton
-        Network network = new Network();
-        if(network != null)
-        {
-            network;
-        }
+    	super(_name, _password, phoneNumber);
+    	System.out.println("Admin constructor called");
     }
 }

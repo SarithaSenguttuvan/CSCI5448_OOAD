@@ -1,34 +1,11 @@
-public class Admin extends Person implements DisplayList
-{
-    Integer totalProducts;
-    ArrayList<Product> productsList = new ArrayList<Product>();
+import java.util.Scanner;
 
-    Admin()
+public class Admin extends Person //implements DisplayList
+{
+    Admin(String _name, String _password, String phoneNumber)
     {
-    	super(_name, _phone);
+    	super(_name, _password, phoneNumber);
+    	System.out.println("Admin constructor called");
     }
 
-    public Integer getTotalProducts()
-	{
-	    return totalProducts;   
-	}
-	public void setTotalProducts(Integer _totalProducts)
-	{
-	    totalProducts = _totalProducts;
-	}
-	public void addProducts(Product _product)
-	{
-	    productsList.add(_product);
-	    Subject.setState();
-	}
-	public void removeProducts(Product _product)
-	{
-	    productsList.remove(_product);
-	}
-	public void listProducts()
-	{
-	    for (Product _product : productsList) {
-            System.out.println("_product = " + _product);
-        }
-	}
 }

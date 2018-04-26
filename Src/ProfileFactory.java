@@ -1,6 +1,7 @@
+
 public class ProfileFactory
 {
-    public Person createProfile(String profileType)
+    public Person createProfile(String profileType, String _loginName, String _passWord, String _phoneNumber)
     {
         if(profileType == null)
         {
@@ -8,11 +9,11 @@ public class ProfileFactory
         }
         if(profileType.equalsIgnoreCase("admin"))
         {
-            return new Admin();
+            return new Admin(_loginName, _passWord, _phoneNumber);
         }
         else  if(profileType.equalsIgnoreCase("user"))
         {
-            return new User();
+            return new User(_loginName, _passWord, _phoneNumber);
         }
         return null;
     }
