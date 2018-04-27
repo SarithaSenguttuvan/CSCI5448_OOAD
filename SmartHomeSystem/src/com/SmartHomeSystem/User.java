@@ -6,5 +6,5 @@ import javax.persistence.*;
 @Table(name="UserTable")
 public class User extends Person //implements DisplayList
 {
-
+    //Added User functionalities with hibernate model
 }
