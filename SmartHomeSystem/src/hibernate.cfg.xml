@@ -28,6 +28,7 @@
  
         <!-- Mention here all the model classes along with their package name -->
  		<mapping class="com.SmartHomeSystem.Admin"/>
+ 		<mapping class="com.SmartHomeSystem.User"/>
  		
     </session-factory>
 </hibernate-configuration>

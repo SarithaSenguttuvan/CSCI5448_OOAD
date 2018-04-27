@@ -2,7 +2,7 @@ package com.SmartHomeSystem;
 
 public class ProfileFactory
 {
-    public Person createProfile(String profileType, String _loginName, String _passWord, String _phoneNumber)
+    public Person createProfile(String profileType)
     {
         if(profileType == null)
         {
@@ -10,11 +10,11 @@ public class ProfileFactory
         }
         if(profileType.equalsIgnoreCase("admin"))
         {
-            return new Admin(_loginName, _passWord, _phoneNumber);
+        	return new Admin();
         }
         else  if(profileType.equalsIgnoreCase("user"))
         {
-            return new User(_loginName, _passWord, _phoneNumber);
+        	return new User();
         }
         return null;
     }

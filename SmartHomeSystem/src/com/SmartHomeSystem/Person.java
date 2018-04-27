@@ -18,6 +18,9 @@ import javax.persistence.*;
 public class Person
 {	
 	@Id
+	@GeneratedValue
+	private int Id;
+	
 	@Column(name = "Name")
 	private String name;
 	
@@ -27,37 +30,54 @@ public class Person
 	@Column(name = "Password")
 	private String password;
 	
-	Person(String _name, String _password, String _phone)
+//	Person(String _name, String _password, String _phone)
+//	{
+//		System.out.println("Person constructor called");
+//		setName(_name);
+//		setPassword(_password);
+//		setPhone(_phone);
+//	}
+	
+	public int getId()
 	{
-		System.out.println("Person constructor called");
-		setName(_name);
-		setPassword(_password);
-		setPhone(_phone);
+		return this.Id;
 	}
+	
+	public void setId(int _id)
+	{
+		this.Id = _id;
+	}
+	
 	public void setName(String _name)
 	{
 	    this.name = _name;
 	}
+	
 	public String getName()
 	{
 	    return this.name;   
 	}
+	
 	public void setPhone(String _phone)
 	{
 	    this.phone = _phone;
 	}
+	
 	public String getPhone()
 	{
 	    return this.phone;   
 	}
+	
 	public void setPassword(String _password)
 	{
 	    this.password = _password;
 	}
+	
 	public String getPassword()
 	{
 	    return password;
 	}
+	
 	public void printDetails()
 	{
 		System.out.println("UserName");
