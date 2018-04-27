@@ -1,3 +1,6 @@
+package com.SmartHomeSystem;
+import java.util.ArrayList;
+
 public class Group implements DisplayList
 {
     private String grpName;
@@ -40,7 +43,7 @@ public class Group implements DisplayList
 		String _grpName = System.console().readLine();
 		this.listProducts();
     }
-    public void changeGroupSettings(boolean: _grpSpecificPower)
+    public void changeGroupSettings(boolean _grpSpecificPower)
     {
         grpSpecificPower = _grpSpecificPower;
     }

@@ -1,3 +1,4 @@
+package com.SmartHomeSystem;
 public abstract class Observer 
 {
 	protected Subject subject;

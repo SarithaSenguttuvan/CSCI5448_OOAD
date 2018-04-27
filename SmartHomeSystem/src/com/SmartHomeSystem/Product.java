@@ -1,3 +1,4 @@
+package com.SmartHomeSystem;
 public abstract class Product
 {
     private String name;
@@ -42,9 +43,9 @@ public abstract class Product
     {
         return price;
     }
-    public void setPrice(double _price)
+    public void setPrice(float _price)
     {
         price = _price;
     }
-    public abstract displayHelpInfo();
+    public abstract void displayHelpInfo();
 }

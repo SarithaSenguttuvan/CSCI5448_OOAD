@@ -1,3 +1,6 @@
+package com.SmartHomeSystem;
+import javax.persistence.*;
+
 /**
  * @file 
  *		Person.java 
@@ -11,12 +14,19 @@
  **********
  *
  */
-
+@MappedSuperclass
 public class Person
 {	
-	String name;
-	String phone;
-	String password;
+	@Id
+	@Column(name = "Name")
+	private String name;
+	
+	@Column(name = "Phone")
+	private String phone;
+	
+	@Column(name = "Password")
+	private String password;
+	
 	Person(String _name, String _password, String _phone)
 	{
 		System.out.println("Person constructor called");

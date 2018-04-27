@@ -1,3 +1,4 @@
+package com.SmartHomeSystem;
 public class Sensor extends Product
 {
     private double value;
@@ -56,7 +57,7 @@ public class Sensor extends Product
     }
     public void changeThreshold(double _threshold)
     {
-        setThreshold(_th);
+        setThreshold(_threshold);
     }
     public boolean checkRange()
     {

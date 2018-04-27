@@ -1,5 +1,8 @@
-import java.util.Scanner;
+package com.SmartHomeSystem;
 
+import javax.persistence.*;
+
+@Entity
 public class User extends Person //implements DisplayList
 {
     User(String _name, String _password, String phoneNumber)

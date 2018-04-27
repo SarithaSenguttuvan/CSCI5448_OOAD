@@ -1,3 +1,4 @@
+package com.SmartHomeSystem;
 
 public class ProfileFactory
 {
