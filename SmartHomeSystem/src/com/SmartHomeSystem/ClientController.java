@@ -67,7 +67,7 @@ public class ClientController
 		}
 		catch(HibernateException e)
 		{
-			DisplayView.displayInfo("Admin retrival exception");
+			DisplayView.displayInfo("User retrival exception");
 			if(tx!=null)
 				tx.rollback();
 			e.printStackTrace();
@@ -77,12 +77,84 @@ public class ClientController
 			session.close();
 		}
 	}
+	//getNetwork
+	public static Network getNetwork()
+	{
+		List queryNetworks;
+		Network network = null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			queryNetworks = session.createQuery("FROM com.SmartHomeSystem.Network").list();
+			for (Iterator iterator = queryNetworks.iterator(); iterator.hasNext();)
+			{
+				network = ((Network)iterator.next());
+			}
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			DisplayView.displayInfo("Network retrival exception");
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally
+		{
+			session.close();
+		}
+		return network;
+	}	
+	
+	public static void networkControl()
+	{
+		int createOrViewNetwork;
+		String networkName;
+		Network network = null;
+		createOrViewNetwork = DisplayView.displayNetworkPage();
+		if(createOrViewNetwork == 1)		//create network
+		{
+			Network myNetwork = new Network();			
+			networkName = DisplayView.displayGetNetworkInfo(); 
+			myNetwork.setNetworkName(networkName);	
+			//save to database
+			Session session = getSessionFactory().openSession();
+			Transaction tx = null;
+			try 
+			{
+				tx = session.beginTransaction();
+				session.save(myNetwork);	// this will save the object into the database
+				tx.commit();
+			}
+			catch(HibernateException e)
+			{
+				System.out.println("Saving object exception caught");
+				if(tx!=null)
+					tx.rollback();
+				e.printStackTrace();
+			}
+			finally
+			{
+				session.close();
+			}
+		}
+		else   //view network
+		{
+			
+			network = getNetwork();
+			DisplayView.displayInfo(network.getNetworkName());
+			//sensorsInfo();
+		}
+	}
 	
 	public static void main(String[] args)
     {
 		//Main code to start the program
 		boolean execFlag = true;
 		int loginOrSignUp;
+
 		ArrayList<Admin> admins =  new ArrayList<Admin>();
 		ArrayList<User> users =  new ArrayList<User>();
 		Person person = null;
@@ -132,7 +204,8 @@ public class ClientController
 				}
 				if(person != null)
 				{
-					DisplayView.displayInfo(person.getName());
+					DisplayView.displayInfo(person.getName()+ " Logged In");
+					networkControl();
 				}
 				else
 				{
@@ -140,7 +213,7 @@ public class ClientController
 					continue;
 				}
 			}
-			else
+			else // Signup
 			{
 				ProfileFactory profileFactory = new ProfileFactory();
 				String signUpdetails;

@@ -44,4 +44,34 @@ public class DisplayView
 		details = details + '~' + input.nextLine();
 		return details;
 	}
+	
+	public static String displayGetNetworkInfo()
+	{
+		String networkName;
+		System.out.println("Enter your network name");
+		networkName = input.nextLine();
+		return networkName;
+	}
+	
+	public static int displayNetworkPage()
+	{
+		System.out.println("Welcome to network page");
+		System.out.println("1.Create network	2.View network");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;		
+	}
+	public static int displaySensorsPage()
+	{
+		System.out.println("1. Add sensors 2. View sensors");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;			
+	}
+	public static String displayGetSensorInfo(String sensorName)
+	{
+		System.out.println("Enter sensor name");
+		sensorName = input.nextLine();
+		return sensorName;		
+	}
 }
