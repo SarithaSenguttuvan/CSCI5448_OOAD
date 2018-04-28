@@ -2,12 +2,30 @@ package com.SmartHomeSystem;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="Networktable")
 public class Network implements DisplayList
 {
+	@Id
+	@GeneratedValue
+	public int Id;
+	
+	@Column(name = "NetworkName")
     public String networkName;
+    
     public ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
     public ArrayList<Group> groupList = new ArrayList<Group>();
     
+    public String getNetworkName()
+    {
+    	return this.networkName;
+    }
+    public void setNetworkName(String _myNetworkName)
+    {
+    	this.networkName = _myNetworkName;
+    }
     public void showSensorDetails()
 	{
 	    for (Sensor _sensor : sensorList) {

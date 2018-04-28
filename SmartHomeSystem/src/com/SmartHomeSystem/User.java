@@ -10,4 +10,5 @@ public class User extends Person //implements DisplayList
 	{
 		return DisplayView.viewUserFirstPage();
 	}
+    //Added User functionalities with hibernate model
 }

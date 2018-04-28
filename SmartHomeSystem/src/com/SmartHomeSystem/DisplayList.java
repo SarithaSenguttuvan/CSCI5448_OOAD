@@ -1,4 +1,5 @@
 package com.SmartHomeSystem;
-interface DisplayList {
+interface DisplayList 
+{
    public void listProducts();
 }
