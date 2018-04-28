@@ -21,6 +21,19 @@ public abstract class Product
 	@Column(name = "Price")
     private float price;
 
+	@Column(name = "HelpInfo")
+    private String helpInfo;
+	
+	public String getHelpInfo()
+	{
+		return this.helpInfo;
+	}
+	
+	public void setHelpInfo(String txt)
+	{
+		this.helpInfo = txt;
+	}
+	
     public String getName()
     {
         return this.name;

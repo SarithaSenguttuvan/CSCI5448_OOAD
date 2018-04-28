@@ -50,13 +50,53 @@ public class Network implements DisplayList
     {
     	int option;
     	option = DisplayView.displayNetworksFirstPage();
+    	int sensorOption;
+    	int sensorConfigOption;
     	if(option == 1) //Add sensors
     	{
     		this.addSensorToNetwork();
     	}
-    	else if(option == 2)// View Sensors
+    	else if(option == 2)// View Sensors that are added to the network
     	{
     		this.listSensors();
+    		sensorOption = DisplayView.requestSensorOption();
+    		List querySensors;
+            Sensor sensor = null;
+    		Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+//                querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor E WHERE E.id = :sensorOption").list();
+//                for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
+//                {
+//                    sensor = ((Sensor)iterator.next());
+//                }
+                sensor = (Sensor)session.get(Sensor.class, sensorOption);
+                tx.commit();
+            }
+            catch(HibernateException e)
+            {
+                DisplayView.displayInfo("Sensor retrival exception");
+                if(tx!=null)
+                    tx.rollback();
+                e.printStackTrace();
+            }
+            finally
+            {
+                session.close();
+            }
+            sensor.showSensorDetails();
+            sensorConfigOption = DisplayView.requestSensorConfigOption();
+            if(sensorConfigOption == 1)
+            {
+            	sensor.sensorConfig();
+            }
+            else
+            {
+            	
+            }
+    		
     	}
     	else if(option == 3) //Remove Sensors
     	{
@@ -105,6 +145,7 @@ public class Network implements DisplayList
                 	break;
                 }
             }
+            sensor.sensorConfig();
             this.setSensorList(sensor);
             session.update(this);
             tx.commit();
@@ -144,8 +185,9 @@ public class Network implements DisplayList
     public void listSensors()
 	{
     	System.out.println("LIst Sensors *********************");
-	    for (Sensor _sensor : this.getSensorList()) {
-            System.out.println(_sensor.getName());
+	    for (Sensor sensor : this.getSensorList()) 
+	    {
+            System.out.println(sensor.getId() + ". " + sensor.getName());
         }
 	}
 }

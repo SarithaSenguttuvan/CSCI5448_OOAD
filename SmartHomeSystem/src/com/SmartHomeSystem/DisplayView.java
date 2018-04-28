@@ -62,6 +62,8 @@ public class DisplayView
 		details = details + '~' + input.nextLine();
 		System.out.println("Sensor Price:");
 		details = details + '~' + input.nextLine();
+		System.out.println("Sensor Help:");
+		details = details + '~' + input.nextLine();
 		return details;
 	}
 	
@@ -69,6 +71,7 @@ public class DisplayView
 	{
 		System.out.println("1.Create Network");
 		System.out.println("2.View Network");
+		System.out.println("6.Logout");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;	
@@ -79,6 +82,7 @@ public class DisplayView
 		System.out.println("3.Add New Product");
 		System.out.println("4.Delete Product");
 		System.out.println("5.View Products");
+		System.out.println("6.Logout");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;	
@@ -150,4 +154,19 @@ public class DisplayView
             session.close();
         }
     }
+	
+	public static int requestSensorOption()
+	{
+		displayInfo("Choose sensor to display details");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;			
+	}
+	public static int requestSensorConfigOption()
+	{
+		displayInfo("Choose 1: Change sensor settings 2: Go Back");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;			
+	}
 }

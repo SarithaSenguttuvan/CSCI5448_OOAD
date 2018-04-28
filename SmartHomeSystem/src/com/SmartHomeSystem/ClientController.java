@@ -217,6 +217,10 @@ public class ClientController
 						{
 							((Admin)person).removeProducts();
 						}
+						else if(optionPage == 6)	//Logout
+						{
+							break;
+						}
 					}
 				}
 				else

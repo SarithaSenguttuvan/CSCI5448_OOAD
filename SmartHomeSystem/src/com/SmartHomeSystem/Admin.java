@@ -47,7 +47,7 @@ public class Admin extends Person //implements DisplayList
 		product.setType(details[1]);
 		product.setDataUnit(details[2]);
 		product.setPrice(Float.parseFloat(details[3]));
-		
+		product.setHelpInfo(details[4]);
 		Session session = ClientController.getSessionFactory().openSession();
 		Transaction tx = null;
 		try 

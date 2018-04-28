@@ -2,6 +2,13 @@ package com.SmartHomeSystem;
 
 import javax.persistence.*;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.Iterator;
+import java.util.Scanner;
+
 @Entity
 @Table(name = "SensorTable")
 public class Sensor extends Product
@@ -14,9 +21,6 @@ public class Sensor extends Product
 	
 	@Column(name = "Threshold")
     private double threashold;
-	
-	@Column(name = "HelpInfo")
-    private String helpInfo;
 	
 	@Column(name = "Power")
     private boolean power;
@@ -55,7 +59,7 @@ public class Sensor extends Product
     }
     public void displayHelpInfo()
     {
-        System.out.println(helpInfo);
+        System.out.println(this.getHelpInfo());
     }
     public boolean viewSettings()
     {
@@ -88,6 +92,54 @@ public class Sensor extends Product
     public void notifyUser(String _data)
     {
         System.out.println(_data);
+    }
+    
+    public void showSensorDetails()
+    {
+    	System.out.println(this.getName()+ " details");
+    	System.out.println("Location: "+ this.getLocation());
+    	System.out.println("Power: "+ this.getPower());
+    	System.out.println("Threshold: "+ this.getThreshold());
+    	System.out.println("Reading: "+ this.getValue());
+    }
+    
+    public void sensorConfig()
+    {
+    	Scanner input = new Scanner(System.in);
+    	System.out.println("Enter the location");
+    	this.setLocation(input.nextLine());
+ 
+    	System.out.println("Enter Power status");
+    	this.setPower(input.nextBoolean());
+    	input.nextLine();
+
+    	System.out.println("Enter the threshold");
+    	this.setThreshold(input.nextDouble());
+    	input.nextLine();
+    	
+    	System.out.println("Enter the Value");
+    	this.setValue(input.nextDouble());
+    	input.nextLine();
+    	
+    	Session session = ClientController.getSessionFactory().openSession();
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			session.update(this);
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			DisplayView.displayInfo("Network retrival exception");
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally
+		{
+			session.close();
+		}
     }
     
 }
