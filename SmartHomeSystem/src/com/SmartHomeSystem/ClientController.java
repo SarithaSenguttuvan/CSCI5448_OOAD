@@ -133,6 +133,7 @@ public class ClientController
 				if(person != null)
 				{
 					DisplayView.displayInfo(person.getName());
+					person.viewPage();
 				}
 				else
 				{
@@ -140,7 +141,7 @@ public class ClientController
 					continue;
 				}
 			}
-			else
+			else 
 			{
 				ProfileFactory profileFactory = new ProfileFactory();
 				String signUpdetails;

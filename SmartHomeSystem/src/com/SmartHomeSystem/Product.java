@@ -1,10 +1,24 @@
 package com.SmartHomeSystem;
+
+import javax.persistence.*;
+
+@MappedSuperclass
 public abstract class Product
 {
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	@Column(name = "Product Name")
     private String name;
-    private int id;
+    
+	@Column(name = "Type")
     private String type;
+	
+	@Column(name = "Unit")
     private String dataUnit;
+	
+	@Column(name = "Price")
     private float price;
 
     public String getName()

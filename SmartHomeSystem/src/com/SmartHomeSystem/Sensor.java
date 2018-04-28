@@ -1,10 +1,23 @@
 package com.SmartHomeSystem;
+
+import javax.persistence.*;
+
+@Entity
 public class Sensor extends Product
 {
+	@Column(name = "Reading")
     private double value;
+	
+	@Column(name = "Location")
     private String location;
+	
+	@Column(name = "Threshold")
     private double threashold;
+	
+	@Column(name = "HelpInfo")
     private String helpInfo;
+	
+	@Column(name = "Power")
     private boolean power;
     
     public boolean getPower()

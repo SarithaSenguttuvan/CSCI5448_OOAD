@@ -44,4 +44,36 @@ public class DisplayView
 		details = details + '~' + input.nextLine();
 		return details;
 	}
+	public static String addAdminProducts()
+	{
+		String details = null;
+		System.out.println("Sensor Name:");
+		details = input.nextLine();
+		System.out.println("Sensor Type:");
+		details = details + '~' + input.nextLine();
+		System.out.println("Sensor Unit:");
+		details = details + '~' + input.nextLine();
+		System.out.println("Sensor Price:");
+		details = details + '~' + input.nextLine();
+		return details;
+	}
+	
+	public static int viewUserFirstPage()
+	{
+		System.out.println("1.Create Network");
+		System.out.println("2.View Network");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;	
+	}
+	
+	public static int viewAdminFirstPage()
+	{
+		System.out.println("3.Add New Product");
+		System.out.println("4.Delete Product");
+		System.out.println("5.View Products");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;	
+	}
 }

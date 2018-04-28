@@ -15,7 +15,7 @@ import javax.persistence.*;
  *
  */
 @MappedSuperclass
-public class Person
+public abstract class Person
 {	
 	@Id
 	@GeneratedValue
@@ -29,14 +29,6 @@ public class Person
 	
 	@Column(name = "Password")
 	private String password;
-	
-//	Person(String _name, String _password, String _phone)
-//	{
-//		System.out.println("Person constructor called");
-//		setName(_name);
-//		setPassword(_password);
-//		setPhone(_phone);
-//	}
 	
 	public int getId()
 	{
@@ -77,14 +69,6 @@ public class Person
 	{
 	    return password;
 	}
+	public abstract int viewPage();
 	
-	public void printDetails()
-	{
-		System.out.println("UserName");
-		System.out.println(this.name);
-		System.out.println("Phone Number");
-		System.out.println(this.phone);
-		System.out.println("Password");
-		System.out.println(this.password);
-	}
 }

@@ -1,10 +1,23 @@
 package com.SmartHomeSystem;
 import java.util.ArrayList;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="GroupTable")
 public class Group implements DisplayList
 {
+	@Id
+	@GeneratedValue
+	private int Id;
+	
+	@Column(name = "Name")
     private String grpName;
+	
+	@Column(name = "Power")
 	private boolean grpSpecificPower;
+	
+	@Column(name = "SensorList")
 	public ArrayList<Sensor> gsensorList = new ArrayList<Sensor>();
     
     public void setGrpName(String _grpName)
