@@ -1,6 +1,12 @@
 package com.SmartHomeSystem;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import org.hibernate.Transaction;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.HibernateException;
+import java.util.Iterator;
 
 public class DisplayView 
 {	
@@ -76,7 +82,9 @@ public class DisplayView
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;	
+	}
 	
+	 
 	public static String displayGetNetworkInfo()
 	{
 		String networkName;
@@ -85,17 +93,14 @@ public class DisplayView
 		return networkName;
 	}
 	
-	public static int displayNetworkPage()
+	public static int displayNetworksFirstPage()
 	{
-		System.out.println("Welcome to network page");
-		System.out.println("1.Create network	2.View network");
-		int option =  input.nextInt();
-		input.nextLine(); //To remove the next line option
-		return option;		
-	}
-	public static int displaySensorsPage()
-	{
-		System.out.println("1. Add sensors 2. View sensors");
+		System.out.println("1. Add sensors");
+		System.out.println("2. View sensors");
+		System.out.println("3. Remove sensors");
+		System.out.println("4. Create Group");
+		System.out.println("5. View Group");
+		System.out.println("6. Remove Group");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;			
@@ -106,4 +111,43 @@ public class DisplayView
 		sensorName = input.nextLine();
 		return sensorName;		
 	}
+	public static int displayAvailableSensorList()
+	{
+		//ArrayList<Sensor> sensors =  new ArrayList<Sensor>();
+		getSensors();
+		displayInfo("Choose sensor to add to network");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line option
+		return option;		
+	}
+	
+	public static void getSensors()
+    {
+        List querySensors;
+        Sensor sensor;
+        Session session = ClientController.getSessionFactory().openSession();
+        Transaction tx = null;
+        try 
+        {
+            tx = session.beginTransaction();
+            querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor").list();
+            for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
+            {
+                sensor = ((Sensor)iterator.next());
+            	displayInfo("Sensor Id:" + sensor.getId() + ", Sensor name: " + sensor.getName());
+            }
+            tx.commit();
+        }
+        catch(HibernateException e)
+        {
+            DisplayView.displayInfo("Sensor retrival exception");
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally
+        {
+            session.close();
+        }
+    }
 }

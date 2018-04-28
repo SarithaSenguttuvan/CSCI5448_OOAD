@@ -3,6 +3,7 @@ package com.SmartHomeSystem;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "SensorTable")
 public class Sensor extends Product
 {
 	@Column(name = "Reading")

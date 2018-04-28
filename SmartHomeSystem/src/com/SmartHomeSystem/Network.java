@@ -1,8 +1,13 @@
 package com.SmartHomeSystem;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name="Networktable")
@@ -15,8 +20,21 @@ public class Network implements DisplayList
 	@Column(name = "NetworkName")
     public String networkName;
     
-    public ArrayList<Sensor> sensorList = new ArrayList<Sensor>();
-    public ArrayList<Group> groupList = new ArrayList<Group>();
+	//@Column(name = "Sensor List")
+	@OneToMany(fetch = FetchType.EAGER)
+    private List<Sensor> sensorList = new ArrayList<Sensor>();
+	
+	//@Column(name = "Group List")
+   // public ArrayList<Group> groupList = new ArrayList<Group>();
+    public List<Sensor> getSensorList()
+    {
+    	return this.sensorList;
+    }
+    
+    public void setSensorList(Sensor s)
+    {
+    	this.sensorList.add(s);
+    }
     
     public String getNetworkName()
     {
@@ -26,65 +44,108 @@ public class Network implements DisplayList
     {
     	this.networkName = _myNetworkName;
     }
-    public void showSensorDetails()
+    
+	
+    public void viewNetworkOptions()
+    {
+    	int option;
+    	option = DisplayView.displayNetworksFirstPage();
+    	if(option == 1) //Add sensors
+    	{
+    		this.addSensorToNetwork();
+    	}
+    	else if(option == 2)// View Sensors
+    	{
+    		this.listSensors();
+    	}
+    	else if(option == 3) //Remove Sensors
+    	{
+    		this.removeSensorFromNetwork();
+    	}
+    	else if(option == 4) //Create group
+    	{
+    		this.createGroup();
+    	}
+    	else if(option == 5)	//View Group
+    	{
+    		
+    	}
+    	else if(option == 6)	//Remove Group
+    	{
+    		this.deleteGroup();
+    	}
+    }
+    
+	public void addSensorToNetwork()
 	{
-	    for (Sensor _sensor : sensorList) {
-            System.out.println("_sensor = " + _sensor);
+		int selectedSensor;
+		selectedSensor = DisplayView.displayAvailableSensorList();
+		DisplayView.displayInfo("Sensor selected successfully");
+		addSensorToList(selectedSensor);
+	}
+
+	public void addSensorToList(int sensorId)
+    {
+        List querySensors;
+        Sensor sensor = null;
+        Session session = ClientController.getSessionFactory().openSession();
+        Transaction tx = null;
+        try 
+        {
+            tx = session.beginTransaction();
+            querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor").list();
+            for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
+            {
+            	
+                sensor = ((Sensor)iterator.next());
+                System.out.println(sensor.getId());
+                if(sensorId == sensor.getId())
+                {
+                	DisplayView.displayInfo("Sensor added successfully");
+                	break;
+                }
+            }
+            this.setSensorList(sensor);
+            session.update(this);
+            tx.commit();
         }
-	}
+        catch(HibernateException e)
+        {
+            DisplayView.displayInfo("Sensor retrival exception");
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally
+        {
+            session.close();
+        }
+    }
 	
-	public Sensor addSensorToNetwork(Sensor sensor_name, String _location, double _threshold)
+	public boolean removeSensorFromNetwork()
 	{
-		System.out.println("Enter the location");
-		String location_name = System.console().readLine();
-		System.out.println("Enter the threshold");
-//		double threshold_value = System.console().readLine();
-		sensor_name.setLocation(location_name);
-//		sensor_name.threshold = threshold_value;
-	    sensorList.add(sensor_name);
-	    return sensorList.get(0);
-	}
-	
-	public boolean removeSensorFromNetwork(Sensor _sensor)
-	{
-	    if(sensorList.remove(_sensor) == true)
-	    {
-	    	//On success of removing the sensor from sensor list, remove the sensor from the group as well
-	    	for (Group group_name : groupList) 
-	    	{ 		      
-            	if (group_name.equals(_sensor)) // check this
-            	{
-            		group_name.removeSensorFromGrp(_sensor);
-			    	//group_name.remove(_sensor);
-				} 	
-		    }
-	    	
-	    }
+	    //Update the database
 	    return true;
 	}
 	
-	public Group createGroup()
+	public void createGroup()
 	{
-	    Group group = new Group();
-	    System.out.println("Enter the Group Name");
-		
-        if(group != null)
-        {
-            groupList.add(group);
-        }
-        return group;
+//		String grpName;
+//		Group myGrp = new Group();			
+//		grpName = DisplayView.displayGetNetworkInfo(); 
+//		myGrp.setNetworkName(grpName);
 	}
 	
-	public boolean deleteGroup(Group _group)
+	public boolean deleteGroup()
 	{
-	    groupList.remove(_group);
 	    return true;
 	}
     
-    public void listProducts()
+    public void listSensors()
 	{
-	    for (Sensor _sensor : sensorList) {
-            System.out.println("_sensor = " + _sensor);
+    	System.out.println("LIst Sensors *********************");
+	    for (Sensor _sensor : this.getSensorList()) {
+            System.out.println(_sensor.getName());
         }
 	}
 }

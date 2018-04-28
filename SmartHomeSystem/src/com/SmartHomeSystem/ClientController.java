@@ -108,44 +108,31 @@ public class ClientController
 		return network;
 	}	
 	
-	public static void networkControl()
+	public static void networkCreate()
 	{
-		int createOrViewNetwork;
 		String networkName;
-		Network network = null;
-		createOrViewNetwork = DisplayView.displayNetworkPage();
-		if(createOrViewNetwork == 1)		//create network
+		Network myNetwork = new Network();			
+		networkName = DisplayView.displayGetNetworkInfo(); 
+		myNetwork.setNetworkName(networkName);	
+		//save to database
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try 
 		{
-			Network myNetwork = new Network();			
-			networkName = DisplayView.displayGetNetworkInfo(); 
-			myNetwork.setNetworkName(networkName);	
-			//save to database
-			Session session = getSessionFactory().openSession();
-			Transaction tx = null;
-			try 
-			{
-				tx = session.beginTransaction();
-				session.save(myNetwork);	// this will save the object into the database
-				tx.commit();
-			}
-			catch(HibernateException e)
-			{
-				System.out.println("Saving object exception caught");
-				if(tx!=null)
-					tx.rollback();
-				e.printStackTrace();
-			}
-			finally
-			{
-				session.close();
-			}
+			tx = session.beginTransaction();
+			session.save(myNetwork);	// this will save the object into the database
+			tx.commit();
 		}
-		else   //view network
+		catch(HibernateException e)
 		{
-			
-			network = getNetwork();
-			DisplayView.displayInfo(network.getNetworkName());
-			//sensorsInfo();
+			System.out.println("Saving object exception caught");
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally
+		{
+			session.close();
 		}
 	}
 	
@@ -204,9 +191,33 @@ public class ClientController
 				}
 				if(person != null)
 				{
-					DisplayView.displayInfo(person.getName()+ " Logged In");
-					person.viewPage();
-					networkControl();
+					int optionPage; 
+					while(true)
+					{
+						DisplayView.displayInfo(person.getName()+ " Logged In");
+						optionPage = person.viewPage();
+						if(optionPage == 1) //Create new network
+						{
+							networkCreate();
+						}
+						else if(optionPage == 2)	//View network
+						{
+							Network network = getNetwork();
+							network.viewNetworkOptions();
+						}
+						else if(optionPage == 3)	//Admin - add new product
+						{
+							((Admin)person).addProducts();
+						}
+						else if(optionPage == 4)	//Admin - Remove Product
+						{
+							((Admin)person).viewProducts();
+						}
+						else if(optionPage == 5)	//Admin - View all products
+						{
+							((Admin)person).removeProducts();
+						}
+					}
 				}
 				else
 				{
@@ -227,6 +238,7 @@ public class ClientController
 				person.setName(detailsArray[1]);
 				person.setPhone(detailsArray[2]);
 				person.setPassword(detailsArray[3]);
+				
 
 				Session session = getSessionFactory().openSession();
 				Transaction tx = null;

@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 @Table(name="AdminTable")
 public class Admin extends Person //implements DisplayList
 {
-	@Column(name = "Total Produts")
+	@Column(name = "TotalProduts")
 	private int totalProducts;
 	
 	public int getTotalProducts()
@@ -27,6 +27,17 @@ public class Admin extends Person //implements DisplayList
 	{
 		return DisplayView.viewAdminFirstPage();
 	}
+	
+	public void viewProducts()
+	{
+		
+	}
+	
+	public void removeProducts()
+	{
+		
+	}
+	
 	public void addProducts()
 	{
 		String[] details;

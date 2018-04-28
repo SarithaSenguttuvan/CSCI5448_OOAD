@@ -9,7 +9,7 @@ public abstract class Product
 	@GeneratedValue
 	private int id;
 	
-	@Column(name = "Product Name")
+	@Column(name = "ProductName")
     private String name;
     
 	@Column(name = "Type")
@@ -23,43 +23,43 @@ public abstract class Product
 
     public String getName()
     {
-        return name;
+        return this.name;
     }
     public void setName(String _name)
     {
-        name = _name;
+        this.name = _name;
     }
     public int getId()
     {
-        return id;
+        return this.id;
     }
     public void setId(int _id)
     {
-        id = _id;
+        this.id = _id;
     }
     public String getDataUnit()
     {
-        return dataUnit;
+        return this.dataUnit;
     }
     public void setDataUnit(String _dataUnit)
     {
-        dataUnit = _dataUnit;
+        this.dataUnit = _dataUnit;
     }
     public String getType()
     {
-        return type;
+        return this.type;
     }
     public void setType(String _type)
     {
-        type = _type;
+        this.type = _type;
     }
     public float getPrice()
     {
-        return price;
+        return this.price;
     }
     public void setPrice(float _price)
     {
-        price = _price;
+        this.price = _price;
     }
     public abstract void displayHelpInfo();
 }

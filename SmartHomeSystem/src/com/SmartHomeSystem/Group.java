@@ -54,13 +54,13 @@ public class Group implements DisplayList
         System.out.println("The group power status is" + this.getGrpSpecificPwr());
         System.out.println("The sensors in the list are ");
 		String _grpName = System.console().readLine();
-		this.listProducts();
+		this.listSensors();
     }
     public void changeGroupSettings(boolean _grpSpecificPower)
     {
         grpSpecificPower = _grpSpecificPower;
     }
-    public void listProducts()
+    public void listSensors()
     {
         for (Sensor _gsensorList : gsensorList) {
             System.out.println("_gsensorList = " + _gsensorList);

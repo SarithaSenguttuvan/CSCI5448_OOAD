@@ -1,5 +1,5 @@
 package com.SmartHomeSystem;
 interface DisplayList 
 {
-   public void listProducts();
+   public void listSensors();
 }
