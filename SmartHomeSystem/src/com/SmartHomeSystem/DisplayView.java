@@ -92,7 +92,7 @@ public class DisplayView
 	public static String displayGetNetworkInfo()
 	{
 		String networkName;
-		System.out.println("Enter your network name");
+		System.out.println("Enter name");
 		networkName = input.nextLine();
 		return networkName;
 	}
@@ -157,16 +157,28 @@ public class DisplayView
 	
 	public static int requestSensorOption()
 	{
-		displayInfo("Choose sensor to display details");
+		displayInfo("Choose to display details");
 		int option =  input.nextInt();
-		input.nextLine(); //To remove the next line option
+		input.nextLine(); //To remove the next line
 		return option;			
 	}
+	
 	public static int requestSensorConfigOption()
 	{
 		displayInfo("Choose 1: Change sensor settings 2: Go Back");
 		int option =  input.nextInt();
-		input.nextLine(); //To remove the next line option
+		input.nextLine(); //To remove the next line 
 		return option;			
+	}
+	
+	public static int viewGrpOptions()
+	{
+		displayInfo("1. Add sensor to grp");
+		displayInfo("2. Remove to grp");
+		displayInfo("3. Change grp Settings");
+		displayInfo("4. Go back");
+		int option =  input.nextInt();
+		input.nextLine(); //To remove the next line
+		return option;	
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +26,19 @@ public class Network implements DisplayList
     private List<Sensor> sensorList = new ArrayList<Sensor>();
 	
 	//@Column(name = "Group List")
-   // public ArrayList<Group> groupList = new ArrayList<Group>();
+	@OneToMany(fetch = FetchType.LAZY)
+    public List<Group> groupList = new ArrayList<Group>();
+	
+	public List<Group> getGroupList()
+	{
+		return this.groupList;
+	}
+	
+	public void setGroupList(Group _grp)
+	{
+		this.groupList.add(_grp);
+	}
+	
     public List<Sensor> getSensorList()
     {
     	return this.sensorList;
@@ -44,7 +57,6 @@ public class Network implements DisplayList
     {
     	this.networkName = _myNetworkName;
     }
-    
 	
     public void viewNetworkOptions()
     {
@@ -67,11 +79,6 @@ public class Network implements DisplayList
             try 
             {
                 tx = session.beginTransaction();
-//                querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor E WHERE E.id = :sensorOption").list();
-//                for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
-//                {
-//                    sensor = ((Sensor)iterator.next());
-//                }
                 sensor = (Sensor)session.get(Sensor.class, sensorOption);
                 tx.commit();
             }
@@ -108,7 +115,30 @@ public class Network implements DisplayList
     	}
     	else if(option == 5)	//View Group
     	{
-    		
+    		this.listGroups();
+    		sensorOption = DisplayView.requestSensorOption();
+    		List queryGroups;
+            Group group = null;
+    		Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+                group = (Group)session.get(Group.class, sensorOption);
+                tx.commit();
+            }
+            catch(HibernateException e)
+            {
+                DisplayView.displayInfo("Viewing groups from netwoork failed exception");
+                if(tx!=null)
+                    tx.rollback();
+                e.printStackTrace();
+            }
+            finally
+            {
+                session.close();
+            }
+            group.listSensors();
     	}
     	else if(option == 6)	//Remove Group
     	{
@@ -152,7 +182,7 @@ public class Network implements DisplayList
         }
         catch(HibernateException e)
         {
-            DisplayView.displayInfo("Sensor retrival exception");
+            DisplayView.displayInfo("Sensor adding to nextwork exception");
             if(tx!=null)
                 tx.rollback();
             e.printStackTrace();
@@ -171,10 +201,33 @@ public class Network implements DisplayList
 	
 	public void createGroup()
 	{
-//		String grpName;
-//		Group myGrp = new Group();			
-//		grpName = DisplayView.displayGetNetworkInfo(); 
-//		myGrp.setNetworkName(grpName);
+		String grpName;
+		Group myGrp = new Group();			
+		grpName = DisplayView.displayGetNetworkInfo(); 
+		 Session session = ClientController.getSessionFactory().openSession();
+	        Transaction tx = null;
+	        try 
+	        {
+	            tx = session.beginTransaction();
+	            session.refresh(this);
+	            Hibernate.initialize(this.getGroupList());
+	    		myGrp.setGrpName(grpName);
+	            this.setGroupList(myGrp);
+	            session.save(myGrp);
+	            session.update(this);
+	            tx.commit();
+	        }
+	        catch(HibernateException e)
+	        {
+	            DisplayView.displayInfo("Group Creation Failed exception");
+	            if(tx!=null)
+	                tx.rollback();
+	            e.printStackTrace();
+	        }
+	        finally
+	        {
+	            session.close();
+	        }
 	}
 	
 	public boolean deleteGroup()
@@ -184,10 +237,39 @@ public class Network implements DisplayList
     
     public void listSensors()
 	{
-    	System.out.println("LIst Sensors *********************");
+    	System.out.println("***************** Network Sensors *********************");
 	    for (Sensor sensor : this.getSensorList()) 
 	    {
             System.out.println(sensor.getId() + ". " + sensor.getName());
         }
 	}
+    public void listGroups()
+    {
+    	System.out.println("***************** Groups *********************");
+    	Session session = ClientController.getSessionFactory().openSession();
+        Transaction tx = null;
+        try 
+        {
+            tx = session.beginTransaction();
+            session.refresh(this);
+            Hibernate.initialize(this.getGroupList());
+            for (Group grp : this.getGroupList()) 
+    	    {
+                System.out.println(grp.getId() + ". " + grp.getGrpName());
+            }
+            tx.commit();
+        }
+        catch(HibernateException e)
+        {
+            DisplayView.displayInfo("Group Creation Failed exception");
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally
+        {
+            session.close();
+        }
+	   
+    }
 }

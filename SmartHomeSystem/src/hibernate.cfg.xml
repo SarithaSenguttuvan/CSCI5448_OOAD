@@ -30,7 +30,9 @@
  		<mapping class="com.SmartHomeSystem.Admin"/>
  		<mapping class="com.SmartHomeSystem.User"/>
  		<mapping class="com.SmartHomeSystem.Network"/>
+ 		<mapping class="com.SmartHomeSystem.Group"/>
  		<mapping class="com.SmartHomeSystem.Sensor"/>
+ 		
  		
     </session-factory>
 </hibernate-configuration>

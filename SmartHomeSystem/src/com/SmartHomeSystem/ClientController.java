@@ -1,5 +1,6 @@
 package com.SmartHomeSystem;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -145,6 +146,7 @@ public class ClientController
 		ArrayList<Admin> admins =  new ArrayList<Admin>();
 		ArrayList<User> users =  new ArrayList<User>();
 		Person person = null;
+		
 		
 		//Stores all the administrator objects from the Database
 		getAdmins(admins);

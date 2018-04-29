@@ -15,7 +15,7 @@ public class Group implements DisplayList
 {
 	@Id
 	@GeneratedValue
-	private int Id;
+	private int id;
 	
 	@Column(name = "Name")
     private String grpName;
@@ -45,6 +45,15 @@ public class Group implements DisplayList
 	    return grpName;   
 	}
 	
+    public int getId()
+    {
+        return this.id;
+    }
+    public void setId(int _id)
+    {
+        this.id = _id;
+    }
+	
 	public void setGrpSpecificPwr(boolean status)
 	{
 	    grpSpecificPower = status;
@@ -54,7 +63,7 @@ public class Group implements DisplayList
 	    return grpSpecificPower;   
 	}
 
-    public void addSensorToGrp(Sensor _sensor)
+    public void addSensorToGrp()
     {
        // gsensorList.add(_sensor);
     	int selectedSensor;
@@ -96,7 +105,6 @@ public class Group implements DisplayList
         System.out.println("The group name is" + this.getGrpName());
         System.out.println("The group power status is" + this.getGrpSpecificPwr());
         System.out.println("The sensors in the list are ");
-		String _grpName = System.console().readLine();
 		this.listSensors();
     }
     public void changeGroupSettings(boolean _grpSpecificPower)
@@ -105,10 +113,29 @@ public class Group implements DisplayList
     }
     public void listSensors()
     {
+    	int options;
     	System.out.println("************* Group Sensors *********************");
 	    for (Sensor _sensor : this.getgsensorList()) 
 	    {
-            System.out.println(_sensor.getId()+". " +_sensor.getName());
+            System.out.println(_sensor.getId()+". " +_sensor.getName()+" PowerStatus:"+_sensor.getPower());
         }
+	    System.out.println("**************************************************");
+	    options = DisplayView.viewGrpOptions();
+	    if(options == 1)	//Add sensor to grp
+	    {
+	    	addSensorToGrp();
+	    }
+	    else if(options == 2)	//Remove sensor from grp
+	    {
+	    	
+	    }
+	    else if(options == 3)	//Change grp settings
+	    {
+	    	
+	    }
+	    else
+	    {
+	    	
+	    }
     }
 }
