@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC
 "-//Hibernate/Hibernate Configuration DTD//EN"
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
- 
+
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
@@ -32,7 +32,6 @@
  		<mapping class="com.SmartHomeSystem.Network"/>
  		<mapping class="com.SmartHomeSystem.Group"/>
  		<mapping class="com.SmartHomeSystem.Sensor"/>
- 		
  		
     </session-factory>
 </hibernate-configuration>

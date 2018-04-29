@@ -137,6 +137,35 @@ public class ClientController
 		}
 	}
 	
+	public static void getSensors()
+    {
+        List querySensors;
+        Sensor sensor;
+        Session session = ClientController.getSessionFactory().openSession();
+        Transaction tx = null;
+        try 
+        {
+            tx = session.beginTransaction();
+            querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor").list();
+            for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
+            {
+                sensor = ((Sensor)iterator.next());
+            	DisplayView.displayInfo("Sensor Id:" + sensor.getId() + ", Sensor name: " + sensor.getName());
+            }
+            tx.commit();
+        }
+        catch(HibernateException e)
+        {
+            DisplayView.displayInfo("Sensor retrival exception");
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally
+        {
+            session.close();
+        }
+    }
 	public static void main(String[] args)
     {
 		//Main code to start the program
@@ -213,11 +242,11 @@ public class ClientController
 						}
 						else if(optionPage == 4)	//Admin - Remove Product
 						{
-							((Admin)person).viewProducts();
+							((Admin)person).removeProducts();
 						}
 						else if(optionPage == 5)	//Admin - View all products
 						{
-							((Admin)person).removeProducts();
+							((Admin)person).viewProducts();
 						}
 						else if(optionPage == 6)	//Logout
 						{

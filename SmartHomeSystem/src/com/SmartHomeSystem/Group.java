@@ -1,10 +1,10 @@
 package com.SmartHomeSystem;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -70,7 +70,6 @@ public class Group implements DisplayList
     	ClientController.getNetwork().listSensors();
 		selectedSensor = DisplayView.requestSensorOption();
 		DisplayView.displayInfo("Sensor selected successfully for the Group");
-    	List querySensors;
         Sensor sensor = null;
         Session session = ClientController.getSessionFactory().openSession();
         Transaction tx = null;
@@ -84,7 +83,7 @@ public class Group implements DisplayList
         }
         catch(HibernateException e)
         {
-            DisplayView.displayInfo("Sensor retrival exception");
+            DisplayView.displayInfo("Sensor adding to group Failed exception");
             if(tx!=null)
                 tx.rollback();
             e.printStackTrace();
@@ -97,7 +96,7 @@ public class Group implements DisplayList
     
     public void removeSensorFromGrp(Sensor _sensor)
     {
-        gsensorList.remove(_sensor);
+        this.getgsensorList().remove(_sensor);
     }
     
     public void viewGroupSettings()
@@ -127,11 +126,64 @@ public class Group implements DisplayList
 	    }
 	    else if(options == 2)	//Remove sensor from grp
 	    {
-	    	
+	    	int option;
+	    	System.out.println("************* Group Sensors *********************");
+		    for (Sensor _sensor : this.getgsensorList()) 
+		    {
+	            System.out.println(_sensor.getId()+". " +_sensor.getName()+" PowerStatus:"+_sensor.getPower());
+	        }
+		    System.out.println("**************************************************");
+	    	option = DisplayView.requestSensorOption();
+            Sensor sensor = null;
+    		Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+                session.refresh(this);
+                Hibernate.initialize(this.getgsensorList());
+                sensor = (Sensor)session.get(Sensor.class, option);
+                DisplayView.displayInfo("Sensor Name:" + sensor.getName());
+                this.removeSensorFromGrp(sensor);
+                session.update(this);
+                tx.commit();
+            }
+            catch(HibernateException e)
+            {
+                DisplayView.displayInfo("Sensor Removal from network failed exception");
+                if(tx!=null)
+                    tx.rollback();
+                e.printStackTrace();
+            }
+            finally
+            {
+                session.close();
+            }
+    		
 	    }
 	    else if(options == 3)	//Change grp settings
 	    {
-	    	
+	    	DisplayView.displayInfo("Type the power for all sensors in group:");
+	    	this.changeGroupSettings(DisplayView.getUserBoolean());
+	    	Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+                session.update(this);
+                tx.commit();
+            }
+	        catch(HibernateException e)
+	        {
+	            DisplayView.displayInfo("Group Power Update failed exception");
+	            if(tx!=null)
+	                tx.rollback();
+	            e.printStackTrace();
+	        }
+	        finally
+	        {
+	            session.close();
+	        }
 	    }
 	    else
 	    {

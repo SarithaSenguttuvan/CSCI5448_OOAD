@@ -1,12 +1,6 @@
 package com.SmartHomeSystem;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-import org.hibernate.Transaction;
-import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.HibernateException;
-import java.util.Iterator;
 
 public class DisplayView 
 {	
@@ -14,7 +8,7 @@ public class DisplayView
 	public static int displayMainPage()
 	{
 		System.out.println("Smart Home Management System");
-		System.out.println("1.UserLogin	2.Sign Up 3.Admin");
+		System.out.println("1.UserLogin 2.Sign Up 3.Admin");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;		
@@ -36,7 +30,13 @@ public class DisplayView
 	{
 		System.out.println(s);
 	}
-	
+	public static boolean getUserBoolean()
+	{
+		boolean b;
+		b = input.nextBoolean();
+    	input.nextLine();
+    	return b;
+	}
 	public static String displaySignUpPage()
 	{
 		String details = "";
@@ -118,46 +118,16 @@ public class DisplayView
 	public static int displayAvailableSensorList()
 	{
 		//ArrayList<Sensor> sensors =  new ArrayList<Sensor>();
-		getSensors();
-		displayInfo("Choose sensor to add to network");
+		ClientController.getSensors();
+		displayInfo("Choose a sensor:");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;		
 	}
 	
-	public static void getSensors()
-    {
-        List querySensors;
-        Sensor sensor;
-        Session session = ClientController.getSessionFactory().openSession();
-        Transaction tx = null;
-        try 
-        {
-            tx = session.beginTransaction();
-            querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor").list();
-            for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
-            {
-                sensor = ((Sensor)iterator.next());
-            	displayInfo("Sensor Id:" + sensor.getId() + ", Sensor name: " + sensor.getName());
-            }
-            tx.commit();
-        }
-        catch(HibernateException e)
-        {
-            DisplayView.displayInfo("Sensor retrival exception");
-            if(tx!=null)
-                tx.rollback();
-            e.printStackTrace();
-        }
-        finally
-        {
-            session.close();
-        }
-    }
-	
 	public static int requestSensorOption()
 	{
-		displayInfo("Choose to display details");
+		displayInfo("Choose Sensor:");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line
 		return option;			
@@ -174,7 +144,7 @@ public class DisplayView
 	public static int viewGrpOptions()
 	{
 		displayInfo("1. Add sensor to grp");
-		displayInfo("2. Remove to grp");
+		displayInfo("2. Remove sensor from grp");
 		displayInfo("3. Change grp Settings");
 		displayInfo("4. Go back");
 		int option =  input.nextInt();

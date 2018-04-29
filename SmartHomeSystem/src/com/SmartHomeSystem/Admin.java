@@ -30,12 +30,36 @@ public class Admin extends Person //implements DisplayList
 	
 	public void viewProducts()
 	{
-		
+		System.out.println("***************** Products Inventory *********************");
+	    ClientController.getSensors();
 	}
 	
 	public void removeProducts()
 	{
-		
+		int option;
+		this.viewProducts();
+		option = DisplayView.displayAvailableSensorList();
+		Product product = null;
+        Session session = ClientController.getSessionFactory().openSession();
+        Transaction tx = null;
+        try 
+        {
+            tx = session.beginTransaction();
+            product = ((Product)session.get(Sensor.class, option));
+            session.delete((Sensor)product);
+            tx.commit();
+        }
+        catch(HibernateException e)
+        {
+            DisplayView.displayInfo("Removing product failed exception");
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+        finally
+        {
+            session.close();
+        }
 	}
 	
 	public void addProducts()

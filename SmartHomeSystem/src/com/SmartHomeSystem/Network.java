@@ -1,6 +1,5 @@
 package com.SmartHomeSystem;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -72,7 +71,6 @@ public class Network implements DisplayList
     	{
     		this.listSensors();
     		sensorOption = DisplayView.requestSensorOption();
-    		List querySensors;
             Sensor sensor = null;
     		Session session = ClientController.getSessionFactory().openSession();
             Transaction tx = null;
@@ -103,11 +101,37 @@ public class Network implements DisplayList
             {
             	
             }
-    		
     	}
     	else if(option == 3) //Remove Sensors
     	{
-    		this.removeSensorFromNetwork();
+    		this.listSensors();
+    		sensorOption = DisplayView.requestSensorOption();
+            Sensor sensor = null;
+    		Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+                session.refresh(this);
+                Hibernate.initialize(this.getSensorList());
+                sensor = (Sensor)session.get(Sensor.class, sensorOption);
+                DisplayView.displayInfo("Sensor Name:" + sensor.getName());
+                this.removeSensorFromNetwork(sensor);
+                session.update(this);
+                tx.commit();
+            }
+            catch(HibernateException e)
+            {
+                DisplayView.displayInfo("Sensor Removal from network failed exception");
+                if(tx!=null)
+                    tx.rollback();
+                e.printStackTrace();
+            }
+            finally
+            {
+                session.close();
+            }
+    		
     	}
     	else if(option == 4) //Create group
     	{
@@ -117,7 +141,6 @@ public class Network implements DisplayList
     	{
     		this.listGroups();
     		sensorOption = DisplayView.requestSensorOption();
-    		List queryGroups;
             Group group = null;
     		Session session = ClientController.getSessionFactory().openSession();
             Transaction tx = null;
@@ -142,7 +165,34 @@ public class Network implements DisplayList
     	}
     	else if(option == 6)	//Remove Group
     	{
-    		this.deleteGroup();
+    		this.listGroups();
+    		sensorOption = DisplayView.requestSensorOption();
+            Group group = null;
+    		Session session = ClientController.getSessionFactory().openSession();
+            Transaction tx = null;
+            try 
+            {
+                tx = session.beginTransaction();
+                session.refresh(this);
+                Hibernate.initialize(this.getGroupList());
+                group = (Group)session.get(Group.class, sensorOption);
+                this.deleteGroup(group);
+                session.delete(group);
+	            session.update(this);
+                tx.commit();
+            }
+            catch(HibernateException e)
+            {
+                DisplayView.displayInfo("Removing groups from netwoork failed exception");
+                if(tx!=null)
+                    tx.rollback();
+                e.printStackTrace();
+            }
+            finally
+            {
+                session.close();
+            }
+            
     	}
     }
     
@@ -156,25 +206,13 @@ public class Network implements DisplayList
 
 	public void addSensorToList(int sensorId)
     {
-        List querySensors;
         Sensor sensor = null;
         Session session = ClientController.getSessionFactory().openSession();
         Transaction tx = null;
         try 
         {
             tx = session.beginTransaction();
-            querySensors = session.createQuery("FROM com.SmartHomeSystem.Sensor").list();
-            for (Iterator iterator = querySensors.iterator(); iterator.hasNext();)
-            {
-            	
-                sensor = ((Sensor)iterator.next());
-                System.out.println(sensor.getId());
-                if(sensorId == sensor.getId())
-                {
-                	DisplayView.displayInfo("Sensor added successfully");
-                	break;
-                }
-            }
+            sensor = ((Sensor)session.get(Sensor.class, sensorId));
             sensor.sensorConfig();
             this.setSensorList(sensor);
             session.update(this);
@@ -193,9 +231,9 @@ public class Network implements DisplayList
         }
     }
 	
-	public boolean removeSensorFromNetwork()
+	public boolean removeSensorFromNetwork(Sensor s)
 	{
-	    //Update the database
+		this.getSensorList().remove(s);
 	    return true;
 	}
 	
@@ -230,8 +268,9 @@ public class Network implements DisplayList
 	        }
 	}
 	
-	public boolean deleteGroup()
+	public boolean deleteGroup(Group grp)
 	{
+		this.getGroupList().remove(grp);
 	    return true;
 	}
     
