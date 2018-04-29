@@ -8,10 +8,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.mysql.jdbc.log.Log;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 public class ClientController
 {
@@ -171,12 +174,13 @@ public class ClientController
 		//Main code to start the program
 		boolean execFlag = true;
 		int loginOrSignUp;
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
 		ArrayList<Admin> admins =  new ArrayList<Admin>();
 		ArrayList<User> users =  new ArrayList<User>();
 		Person person = null;
 		
-		
+
 		//Stores all the administrator objects from the Database
 		getAdmins(admins);
 		getUsers(users);

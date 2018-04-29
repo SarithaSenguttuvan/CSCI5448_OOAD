@@ -141,4 +141,30 @@ public class Sensor extends Product
 		}
     }
     
+    @Override
+    public void update(boolean _power)
+    {
+    	System.out.println("fun:Sensor:update");
+    	this.setPower(_power);
+    	Session session = ClientController.getSessionFactory().openSession();
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			session.update((Sensor)this);
+			tx.commit();
+		}
+		catch(HibernateException e)
+		{
+			DisplayView.displayInfo("Network retrival exception");
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		finally
+		{
+			session.close();
+		}
+    }
+    
 }

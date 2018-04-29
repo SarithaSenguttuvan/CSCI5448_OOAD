@@ -3,7 +3,7 @@ package com.SmartHomeSystem;
 import javax.persistence.*;
 
 @MappedSuperclass
-public abstract class Product
+public abstract class Product implements Observer
 {
 	@Id
 	@GeneratedValue
@@ -24,6 +24,8 @@ public abstract class Product
 	@Column(name = "HelpInfo")
     private String helpInfo;
 	
+  
+   
 	public String getHelpInfo()
 	{
 		return this.helpInfo;
@@ -75,4 +77,5 @@ public abstract class Product
         this.price = _price;
     }
     public abstract void displayHelpInfo();
+	public abstract void update(boolean value);
 }

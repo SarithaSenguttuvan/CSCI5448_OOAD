@@ -105,6 +105,7 @@ public class DisplayView
 		System.out.println("4. Create Group");
 		System.out.println("5. View Group");
 		System.out.println("6. Remove Group");
+		System.out.println("7. View Statistics");
 		int option =  input.nextInt();
 		input.nextLine(); //To remove the next line option
 		return option;			

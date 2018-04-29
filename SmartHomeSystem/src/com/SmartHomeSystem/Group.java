@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name="GroupTable")
-public class Group implements DisplayList
+public class Group extends Subject 
 {
 	@Id
 	@GeneratedValue
@@ -34,6 +34,8 @@ public class Group implements DisplayList
 	public void setgSensorList(Sensor s)
 	{
 		this.gsensorList.add(s);
+		System.out.println("fun:Group:setgSensorList");
+		this.attach((Observer)s);
 	}
 	
     public void setGrpName(String _grpName)
@@ -97,6 +99,7 @@ public class Group implements DisplayList
     public void removeSensorFromGrp(Sensor _sensor)
     {
         this.getgsensorList().remove(_sensor);
+        this.detach((Observer)_sensor);
     }
     
     public void viewGroupSettings()
@@ -109,6 +112,8 @@ public class Group implements DisplayList
     public void changeGroupSettings(boolean _grpSpecificPower)
     {
         grpSpecificPower = _grpSpecificPower;
+        System.out.println("fun:Group:changeGroupSettings");
+        this.notifyAllObservers(_grpSpecificPower);
     }
     public void listSensors()
     {
@@ -159,12 +164,13 @@ public class Group implements DisplayList
             {
                 session.close();
             }
-    		
 	    }
 	    else if(options == 3)	//Change grp settings
 	    {
 	    	DisplayView.displayInfo("Type the power for all sensors in group:");
-	    	this.changeGroupSettings(DisplayView.getUserBoolean());
+	    	boolean grpPwr;
+	    	grpPwr = DisplayView.getUserBoolean();
+	    	this.changeGroupSettings(grpPwr);
 	    	Session session = ClientController.getSessionFactory().openSession();
             Transaction tx = null;
             try 
@@ -190,4 +196,28 @@ public class Group implements DisplayList
 	    	
 	    }
     }
+    
+    @Override
+	public void attach(Observer observer)
+	{
+		observers.add(observer);	
+		System.out.println("fun:Group:attach");
+	}
+	
+    @Override
+	public void detach(Observer observer)
+	{
+		observers.remove(observer);		
+	}
+	
+    @Override
+	public  void notifyAllObservers(boolean power)
+    {
+    	System.out.println("fun:Group:notifyAllObservers");
+		for (Observer observer : observers) 
+        {
+        	observer.update(power);
+        }
+    }
+
 }

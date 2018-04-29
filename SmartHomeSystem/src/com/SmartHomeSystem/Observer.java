@@ -1,6 +1,5 @@
 package com.SmartHomeSystem;
-public abstract class Observer 
+public interface Observer 
 {
-	protected Subject subject;
-	public abstract void update();
+	public abstract void update(boolean value);
 }

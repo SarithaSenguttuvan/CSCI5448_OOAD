@@ -2,32 +2,15 @@ package com.SmartHomeSystem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subject
+public abstract class Subject implements DisplayList
 {
-	private List<Observer> observers = new ArrayList<Observer>();
-   	private int state;	
+	protected List<Observer> observers = new ArrayList<Observer>();	
 
-	public int getState() 
-	{
-		return state;
-	}
+    public abstract void attach(Observer observer);
     
-    public void setState(int state) 
-    {
-		//this.state = state;
-		notifyAllObservers();
-    }
+    public abstract void detach(Observer observer);
 
-    public void attach(Observer observer)
-    {
-		observers.add(observer);		
-    }
-
-    public void notifyAllObservers()
-    {
-		for (Observer observer : observers) 
-        {
-        	observer.update();
-        }
-    } 
+    public abstract void notifyAllObservers(boolean pow);
+    
+    public abstract void listSensors();
 }

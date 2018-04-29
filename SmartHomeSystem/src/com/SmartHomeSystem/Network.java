@@ -194,6 +194,11 @@ public class Network implements DisplayList
             }
             
     	}
+    	else if(option == 7)	//View Stats
+    	{
+    		Statistics statistics = new Statistics();
+    		statistics.showAllSensorStats();
+    	}
     }
     
 	public void addSensorToNetwork()
